@@ -2,7 +2,7 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher, F
 from utils import tokens
-from handlers import start
+from handlers import start, tz
 from db import Database
 
 async def main():
@@ -15,7 +15,8 @@ async def main():
     dp = Dispatcher()
     
     dp.include_routers(
-        start.router
+        start.router,
+        tz.router
         )
     
     dp.message.filter(F.chat.type.in_({"private"}))
