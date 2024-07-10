@@ -11,7 +11,7 @@ from db import Database
 router = Router()
 db = Database("./database.db")
 
-@router.message(Command("geo"))
+@router.message(Command("timezone"))
 async def cmd_geo(message: Message):
     await message.answer(
         "🌍 Для корректной работы боту необходимо знать ваш часовой пояс. Пожалуйста, отправьте вашу геолокацию по кнопке ниже.",
