@@ -3,7 +3,9 @@ import logging
 from aiogram import Bot, Dispatcher, F
 from utils import tokens
 from handlers import start, tz
+from middlewares import userexists
 from db import Database
+
 
 async def main():
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s")
@@ -19,6 +21,7 @@ async def main():
         tz.router
         )
     
+    dp.message.middleware(userexists)
     dp.message.filter(F.chat.type.in_({"private"}))
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
