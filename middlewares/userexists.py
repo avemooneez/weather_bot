@@ -5,7 +5,7 @@ from db import Database
 
 db = Database("./database.db")
 
-class ExcessOfTokens(BaseMiddleware):
+class UserExists(BaseMiddleware):
 
     def __init__(self):
         pass

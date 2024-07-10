@@ -21,7 +21,7 @@ async def main():
         tz.router
         )
     
-    dp.message.middleware(userexists)
+    dp.message.middleware(userexists.UserExists())
     dp.message.filter(F.chat.type.in_({"private"}))
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
