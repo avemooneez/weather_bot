@@ -1,6 +1,9 @@
 from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.filters import Command
 from aiogram import Router, F
+from aiogram.filters import StateFilter
+from aiogram.fsm.state import StatesGroup, State
+from aiogram.fsm.context import FSMContext
 from keyboards import geolocation
 from utils import geo
 import datetime
@@ -11,14 +14,18 @@ from db import Database
 router = Router()
 db = Database("./database.db")
 
-@router.message(Command("timezone"))
-async def cmd_geo(message: Message):
+class GetTimeZone(StatesGroup):
+    location = State()
+
+@router.message(Command("timezone"), StateFilter(None))
+async def cmd_geo(message: Message, state: FSMContext):
     await message.answer(
         "🌍 Для корректной работы боту необходимо знать ваш часовой пояс. Пожалуйста, отправьте вашу геолокацию по кнопке ниже.",
         reply_markup=geolocation.geolocation()
         )
+    state.set_state(GetTimeZone.location)
 
-@router.message(F.location)
+@router.message(F.location, GetTimeZone.location)
 async def on_location(message: Message):
     timezone = geo.tz(lon=message.location.longitude, lat=message.location.latitude)
     time = datetime.datetime.now(tz=pytz.timezone(timezone)).strftime("%H:%M")
