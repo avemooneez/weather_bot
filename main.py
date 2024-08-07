@@ -19,7 +19,7 @@ async def main():
     dp.include_routers(
         start.router,
         tz.router,
-        weather.router
+  #      weather.router
         )
     
     dp.message.middleware(userexists.UserExists())
