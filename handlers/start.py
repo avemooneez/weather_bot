@@ -9,6 +9,7 @@ from aiogram.fsm.context import FSMContext
 from keyboards import geolocation, main
 from utils import geo, tokens
 import requests
+# from apscheduler.schedulers.
 from math import ceil
 
 router = Router()
@@ -36,7 +37,50 @@ async def weather(message: Message):
     temp = (data['main']['temp'])
     wind = (data['wind']['speed'])
     prss = (data['main']['pressure'])
-    # wthr_emj = {
-    #     'Clouds' : '☁️',
-    # }
-    await message.answer(f"☁️Осадки: {wthr}\n🌞Температура: {temp} °C\n💨Скорость ветра: {wind} м/с\n🌡Давление: {ceil(prss/1.333)} мм рт. ст.")
+    wthr_icon = (data['weather'][0]['icon'])
+    degree = (data['wind']['deg'])
+
+    wthr_emjs = {
+        '01d' : '☀️',
+        '01n' : '🌝',
+        '02d' : '⛅️',
+        '02n' : '⛅️',
+        '03d' : '☁️',
+        '03n' : '☁️',
+        '04d' : '☁️',
+        '04n' : '☁️',
+        '09d' : '🌧',
+        '09n' : '🌧',
+        '10d' : '🌦',
+        '10n' : '🌦',
+        '11d' : '⛈',
+        '11n' : '⛈',
+        '13d' : '❄️',    
+        '13n' : '❄️',
+        '50d' : '🌪',
+        '50n' : '🌪'
+    }
+    def get_wind_direction(degree):
+        if degree < 0 or degree > 360:
+            return "Invalid value"
+        
+        if degree >= 337.5 or degree < 22.5:
+            return "Север"
+        elif degree < 67.5:
+            return "Северо-восток"
+        elif degree < 112.5:
+            return "Восток"
+        elif degree < 157.5:
+            return "Юго-восток"
+        elif degree < 202.5:
+            return "Юг"
+        elif degree < 247.5:
+            return "Юго-запад"
+        elif degree < 292.5:
+            return "Запад"
+        elif degree < 337.5:
+            return "Северо-запад"
+
+    deg = get_wind_direction(degree)
+    wthr_emj = wthr_emjs[wthr_icon]
+    await message.answer(f"{wthr_emj} {wthr}\n🌞Температура: {ceil(temp)} °C\n💨Ветер: {wind} м/с | {deg}\n🌡Давление: {ceil(prss/1.333)} мм рт. ст.")
