@@ -2,7 +2,7 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher, F
 from utils import tokens
-from handlers import start, tz
+from handlers import start, tz, forecast
 from middlewares import userexists
 from db import Database
 
@@ -18,7 +18,8 @@ async def main():
     
     dp.include_routers(
         start.router,
-        tz.router
+        tz.router,
+        forecast.router
         )
     
     dp.message.middleware(userexists.UserExists())
