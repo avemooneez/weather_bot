@@ -6,8 +6,9 @@ from db import Database
 from aiogram.filters import StateFilter
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
-from keyboards import geolocation, main
-from utils import geo, tokens
+
+from keyboards import main
+from utils import tokens
 from utils.start import wthr_emjs, get_wind_direction
 import requests
 import datetime
