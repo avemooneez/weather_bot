@@ -2,7 +2,7 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher, F
 from utils import tokens
-from handlers import start, tz, forecast
+from handlers import tz, start, forecast
 from db import Database
 
 
@@ -16,8 +16,8 @@ async def main():
     dp = Dispatcher()
     
     dp.include_routers(
-        start.router,
         tz.router,
+        start.router,
         forecast.router
         )
 
