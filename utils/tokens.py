@@ -3,3 +3,4 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 bot_token = os.getenv('BOT_TOKEN')
+owm_token = os.getenv('OWM_API')
