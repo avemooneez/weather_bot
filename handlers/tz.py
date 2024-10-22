@@ -35,6 +35,6 @@ async def on_location(message: Message, state: FSMContext):
                          )
     db.add_tz(timezone, message.from_user.id)
     await asyncio.sleep(1.5)
-    await message.answer("Отправьте Вашу геолокацию по кнопке ниже, напишите город или введите координаты, и я пришлю погоду в данном участке.",
+    await message.answer("Отправьте Вашу геолокацию по кнопке ниже и я пришлю погоду в данном участке.",
                          reply_markup=main.main())
     await state.set_state(None)
