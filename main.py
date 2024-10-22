@@ -3,9 +3,7 @@ import logging
 from aiogram import Bot, Dispatcher, F
 from utils import tokens
 from handlers import start, tz, forecast
-from middlewares import userexists
 from db import Database
-import apihelper
 
 
 async def main():
@@ -22,7 +20,7 @@ async def main():
         tz.router,
         forecast.router
         )
-    apihelper.SESSION_TIME_TO_LIVE = 5 * 60
+
     dp.message.filter(F.chat.type.in_({"private"}))
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
