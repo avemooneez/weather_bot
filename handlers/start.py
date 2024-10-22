@@ -26,7 +26,6 @@ async def cmd_start(message: Message):
     "Добро пожаловать!\nОтправьте Вашу геолокацию по кнопке ниже и я пришлю погоду в данном участке.", reply_markup=main.main()
     )  
 
-@router.message(Command("test"))   
 @router.message(F.location)
 async def weather(message: Message):
     await asyncio.sleep(1)
