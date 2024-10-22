@@ -23,7 +23,7 @@ async def cmd_start(message: Message):
         db.add_user(message.from_user.id)
         db.get_db()
     await message.answer(  
-    "Добро пожаловать!\nОтправьте Вашу геолокацию по кнопке ниже, напишите город или введите координаты, и я пришлю погоду в данном участке.", reply_markup=main.main()
+    "Добро пожаловать!\nОтправьте Вашу геолокацию по кнопке ниже и я пришлю погоду в данном участке.", reply_markup=main.main()
     )  
 
 @router.message(Command("test"))   
