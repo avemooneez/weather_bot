@@ -31,7 +31,8 @@ async def weather(message: Message):
     await asyncio.sleep(1)
     url = 'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&lang=ru&appid={APIkey}&units=metric'
     response = requests.get(url=url.format(lon=f"{message.location.longitude}", lat=f"{message.location.latitude}", APIkey=tokens.owm_token))
-    data = response.json() 
+    data = response.json()
+    print(data)
     wthr = (data['weather'][0]['description']).capitalize()
     temp = (data['main']['temp'])  
     wind = (data['wind']['speed']) 
@@ -49,6 +50,7 @@ async def cmd_forecast(message: Message):
     url = 'https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&lang=ru&appid={APIkey}&units=metric'
     response = requests.get(url=url.format(lon="49.521527", lat="58.260095", APIkey=tokens.owm_token))
     data = response.json()
+    print(data)
     loc = (data['city']['name'])
     msg = ""
     for i in range(9):
