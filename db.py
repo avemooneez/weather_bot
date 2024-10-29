@@ -23,6 +23,7 @@ timeshed TEXT
 )
 """
             )
+            # self.custom()
             self.get_db()
             return
 
@@ -34,7 +35,8 @@ timeshed TEXT
     
     def custom(self):
         with self.conn:
-            pass
+            self.cur.execute("DELETE FROM `users`")
+            self.cur.execute("DELETE FROM `settings`")
     
     def get_users(self):
         with self.conn:
@@ -56,16 +58,30 @@ timeshed TEXT
                 "INSERT INTO `settings` (user_id) VALUES (?)",
                 (user_id,))
 
-    def add_tz(self, tz: str, user_id: int):
+    def add_tz(self, tz: str, user_id: int) -> None:
         with self.conn:
             try:
                 self.cur.execute(
                     "INSERT INTO `settings` `timezone` VALUES (?) WHERE `user_id` = ?",
                     (tz, user_id,)
                 )
-            except:
+            except Exception:
                 self.cur.execute(
                     "UPDATE `settings` SET `timezone` = (?) WHERE `user_id` = ?",
                     (tz, user_id,)
+                )
+            return
+    
+    def add_time(self, time: str, user_id: int) -> None:
+        with self.conn:
+            try:
+                self.cur.execute(
+                    "INSERT INTO `settings` `timeshed` VALUES (?) WHERE `user_id` = ?",
+                    (time, user_id,)
+                )
+            except Exception:
+                self.cur.execute(
+                    "UPDATE `settings` SET `timeshed` = (?) WHERE `user_id` = ?",
+                    (time, user_id,)
                 )
             return
