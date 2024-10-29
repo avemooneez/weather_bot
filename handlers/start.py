@@ -52,7 +52,6 @@ async def forecast(message: Message, state: FSMContext):
         prss = (da['main']['pressure'])
         wthr_icon = (da['weather'][0]['icon'])
         degree = (da['wind']['deg'])
-        # date = (da['dt_txt'])[:-3] 
         date = datetime.datetime.strptime(da['dt_txt'], '%Y-%m-%d %H:%M:%S').strftime('%d.%m.%Y %H:%M')
         deg = get_wind_direction(degree)
         msg += f"{date}\n{wthr_emjs[wthr_icon]}{wthr}\n🌞Температура: {ceil(temp)} °C\n💨Ветер: {wind} м/с | {deg}\n🌡Давление: {ceil(prss/1.333)} мм рт. ст.\n\n"
