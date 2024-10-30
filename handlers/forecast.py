@@ -7,12 +7,14 @@ from aiogram.filters import StateFilter
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 from keyboards import main
-from utils import tokens
-from utils.start import wthr_emjs, get_wind_direction
+from utils import tokens, timezone_for_forecast
+from utils.geo import tz
+from utils.weather import wthr_emjs, get_wind_direction
 import requests
 import datetime
 import asyncio
 from math import ceil  
+import pytz
 
 router = Router()  
 db = Database("./database.db") 
@@ -27,7 +29,7 @@ async def cmd_forecast(message: Message, state: FSMContext):
 
 @router.message(StateFilter(ForecastStates.forecast))
 async def forecast(message: Message, state: FSMContext):
-    
+    timezone_str = tz(lon=message.location.longitude, lat=message.location.latitude)
     await asyncio.sleep(1)
     url = 'https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&lang=ru&appid={APIkey}&units=metric'
     response = requests.get(url=url.format(lon=f"{message.location.longitude}", lat=f"{message.location.latitude}", APIkey=tokens.owm_token))
@@ -43,8 +45,8 @@ async def forecast(message: Message, state: FSMContext):
         prss = (da['main']['pressure'])
         wthr_icon = (da['weather'][0]['icon'])
         degree = (da['wind']['deg'])
-        date = datetime.datetime.strptime(da['dt_txt'], '%Y-%m-%d %H:%M:%S').strftime('%d.%m.%Y %H:%M')
+        dt = timezone_for_forecast.formatTimezone(da['dt_txt'], timezone_str)
         deg = get_wind_direction(degree)
-        msg += f"{date}\n{wthr_emjs[wthr_icon]}{wthr}\n🌞Температура: {ceil(temp)} °C\n💨Ветер: {wind} м/с | {deg}\n🌡Давление: {ceil(prss/1.333)} мм рт. ст.\n\n"
+        msg += f"{dt}\n{wthr_emjs[wthr_icon]}{wthr}\n🌞Температура: {ceil(temp)} °C\n💨Ветер: {wind} м/с | {deg}\n🌡Давление: {ceil(prss/1.333)} мм рт. ст.\n\n"
     await message.answer(f"Локация: {loc} \n\n" + msg)
     await state.set_state(None)
