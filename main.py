@@ -2,7 +2,7 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher, F
 from utils import tokens
-from handlers import tz, start
+from handlers import tz, start, weather, forecast
 from db import Database
 
 
@@ -17,7 +17,9 @@ async def main():
     
     dp.include_routers(
         tz.router,
-        start.router
+        start.router,
+        forecast.router,
+        weather.router,
         )
 
     dp.message.filter(F.chat.type.in_({"private"}))
