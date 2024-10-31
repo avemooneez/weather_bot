@@ -7,7 +7,7 @@ from aiogram.filters import StateFilter
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 from keyboards import main
-import datetime
+from datetime import datetime
 
 router = Router()  
 db = Database("./database.db") 
@@ -34,7 +34,7 @@ async def timechoose(message: Message, state: FSMContext):
     if message.text.lower() == "нет, спасибо":
         await message.answer("Принято!", reply_markup=main.main())
         await state.set_state(None)
-    elif not ':' in message.text or not datetime.datetime.strptime(message.text, '%H:%M'):
+    elif not ':' in message.text or not datetime.strptime(message.text, '%H:%M'):
         await message.answer("Введите корректное время!")
         await state.set_state(TimeWeather.time)        
     else:

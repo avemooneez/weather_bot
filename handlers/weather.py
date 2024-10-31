@@ -5,7 +5,7 @@ from utils.geo import tz
 from utils.tokens import owm_token
 from utils import weather
 import requests
-import datetime
+from datetime import datetime
 import asyncio
 from math import ceil  
 import pytz
@@ -31,4 +31,4 @@ async def getWeather(message: Message):
     loc = (data['name'])   
     deg = weather.get_wind_direction(degree)
     wthr_emj = weather.wthr_emjs[wthr_icon]
-    await message.answer(f"Локация: {loc} | {datetime.datetime.now(tz=pytz.timezone(timezone)).strftime('%Y-%m-%d %H:%M')}\n\n{wthr_emj}{wthr}\n🌞Температура: {ceil(temp)} °C\n💨Ветер: {wind} м/с | {deg}\n🌡Давление: {ceil(prss/1.333)} мм рт. ст.")
+    await message.answer(f"Локация: {loc} | {datetime.now(tz=pytz.timezone(timezone)).strftime('%d.%m.%Y %H:%M')}\n\n{wthr_emj}{wthr}\n🌞Температура: {ceil(temp)} °C\n💨Ветер: {wind} м/с | {deg}\n🌡Давление: {ceil(prss/1.333)} мм рт. ст.")
