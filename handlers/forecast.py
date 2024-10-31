@@ -11,10 +11,8 @@ from utils import tokens, timezone_for_forecast
 from utils.geo import tz
 from utils.weather import wthr_emjs, get_wind_direction
 import requests
-import datetime
 import asyncio
 from math import ceil  
-import pytz
 
 router = Router()  
 db = Database("./database.db") 
