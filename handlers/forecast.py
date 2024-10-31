@@ -29,8 +29,8 @@ async def cmd_forecast(message: Message, state: FSMContext):
 
 @router.message(StateFilter(ForecastStates.forecast))
 async def forecast(message: Message, state: FSMContext):
-    timezone_str = tz(lon=message.location.longitude, lat=message.location.latitude)
     await asyncio.sleep(1)
+    timezone_str = tz(lon=message.location.longitude, lat=message.location.latitude)
     url = 'https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&lang=ru&appid={APIkey}&units=metric'
     response = requests.get(url=url.format(lon=f"{message.location.longitude}", lat=f"{message.location.latitude}", APIkey=tokens.owm_token))
     data = response.json()
