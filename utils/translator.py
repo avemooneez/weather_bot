@@ -3,7 +3,7 @@ translations = {
         'handlers' : {
             'forecast' : {
                 'get_location' : 'Please send your location using the button below',
-                'forecast_msg' : '{date}\n{weather_emoji}{wthr}\n🌞Temperature: {ceiled_temp} °C\n💨Wind: {wind} m/s, {degree}\n🌡Pressure: {ceiled_pressure} mmHg\n\n',
+                'forecast_msg' : '{date}\n{weather_emoji}{wthr}\n🌞Temperature: {temp} °C\n💨Wind: {wind} m/s, {degree}\n🌡Pressure: {pressure} mmHg\n\n',
                 'answer' : 'Location: {loc} \n\n',
             },
             'start' : {
@@ -13,7 +13,7 @@ translations = {
                 'incorrect_time' : 'Please enter a valid time!'
             },
             'weather' : {
-                'answer' : 'Location: {loc} | {date}\n\n{weather_emoji}{wthr}\n🌞Temperature: {ceiled_temp} °C\n💨Wind: {wind} m/s, {degree}\n🌡Pressure: {ceiled_pressure} mmHg'
+                'answer' : 'Location: {loc} | {date}\n\n{weather_emoji}{wthr}\n🌞Temperature: {temp} °C\n💨Wind: {wind} m/s, {degree}\n🌡Pressure: {pressure} mmHg'
             }
         },
         'keyboards' : {
@@ -44,7 +44,7 @@ translations = {
         'handlers' : {
             'forecast' : {
                 'get_location' : 'Пожалуйста, отправьте ваше местоположение по кнопке ниже',
-                'forecast_msg' : '{date}\n{weather_emoji}{wthr}\n🌞Температура: {ceiled_temp} °C\n💨Ветер: {wind} м/с | {degree}\n🌡Давление: {ceiled_pressure} мм рт. ст.\n\n',
+                'forecast_msg' : '{date}\n{weather_emoji}{wthr}\n🌞Температура: {temp} °C\n💨Ветер: {wind} м/с | {degree}\n🌡Давление: {pressure} мм рт. ст.\n\n',
                 'answer' : 'Локация: {loc} \n\n',
             },
             'start' : {
@@ -54,7 +54,7 @@ translations = {
                 'incorrect_time' : 'Введите корректное время!'
             },
             'weather' : {
-                'answer' : 'Локация: {loc} | {date}\n\n{weather_emoji}{wthr}\n🌞Температура: {ceiled_temp} °C\n💨Ветер: {wind} м/с | {degree}\n🌡Давление: {ceiled_pressure} мм рт. ст.'
+                'answer' : 'Локация: {loc} | {date}\n\n{weather_emoji}{wthr}\n🌞Температура: {temp} °C\n💨Ветер: {wind} м/с | {degree}\n🌡Давление: {pressure} мм рт. ст.'
             }
         },
         'keyboards' : {
@@ -84,4 +84,4 @@ translations = {
 }
 
 def get_translation(lang: str, firstKey: str, secondKey: str, thirdKey: str, **kwargs):
-    pass
+    return translations.get(lang, {}).get(firstKey, {}).get(secondKey, {}).get(thirdKey, {}).format(**kwargs)
