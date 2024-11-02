@@ -27,7 +27,7 @@ async def cmd_forecast(message: Message, state: FSMContext):
     await message.answer(text=answer, reply_markup=main.main(lang=lang))
     await state.set_state(ForecastStates.forecast)
 
-@router.message(StateFilter(ForecastStates.forecast))
+@router.message(StateFilter(ForecastStates.forecast), F.location)
 async def forecast(message: Message, state: FSMContext):
     await asyncio.sleep(1)
     lang = db.get_lang(message.from_user.id)

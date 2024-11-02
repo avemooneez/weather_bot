@@ -1,3 +1,4 @@
+import logging
 import sqlite3
 
 class Database:
@@ -18,9 +19,8 @@ user_id INTEGER PRIMARY KEY UNIQUE NOT NULL
                 """
 CREATE TABLE IF NOT EXISTS `settings`(
 user_id INTEGER PRIMARY KEY UNIQUE NOT NULL,
-timezone TEXT,
 timeshed TEXT,
-lang TEXT DEFAULT 'en'
+lang TEXT DEFAULT 'ru'
 )
 """
             )
@@ -87,11 +87,23 @@ lang TEXT DEFAULT 'en'
                 )
             return
     
-    def add_lang(self, lang: str, user_id: int) -> None:
+    def set_lang(self, lang: str, user_id: int) -> None:
         with self.conn:
-            self.cur.execute("INSERT OR REPLACE INTO `settings` (`lang`) VALUES (?) WHERE `user_id` = ?", (lang, user_id,))
-            return
-    
+            self.cur.execute(
+                "UPDATE `settings` SET `lang` = ? WHERE `user_id` = ?",
+                (lang, user_id,)
+            )
     def get_lang(self, user_id: int) -> str:
         with self.conn:
             return self.cur.execute("SELECT `lang` FROM `settings` WHERE `user_id` = ?", (user_id,)).fetchone()[0]
+    
+    def set_time(self, time: str, user_id: int) -> None:
+        with self.conn:
+            self.cur.execute(
+                "UPDATE `settings` SET `timeshed` = ? WHERE `user_id` = ?",
+                (time, user_id)
+            )
+    
+    def get_time(self, user_id: int) -> str:
+        with self.conn:
+            return self.cur.execute("SELECT `timeshed` FROM `settings` WHERE `user_id` = ?", (user_id,)).fetchone()[0]
