@@ -1,3 +1,5 @@
+from utils import translator
+
 wthr_emjs = {  
     '01d' : '☀️',  
     '01n' : '🌝',  
@@ -18,23 +20,23 @@ wthr_emjs = {
     '50d' : '🌪',  
     '50n' : '🌪'   
 }  
-def get_wind_direction(degree):
+def get_wind_direction(degree, lang):
     if degree < 0 or degree > 360:
         return "Invalid value" 
     
     if degree >= 337.5 or degree < 22.5:
-        return "Север" 
+        return translator.get_translation(lang=lang, firstKey='utils', secondKey='weather', thirdKey='north')
     elif degree < 67.5:
-        return "Северо-восток" 
+        return translator.get_translation(lang=lang, firstKey='utils', secondKey='weather', thirdKey='northwest')
     elif degree < 112.5:   
-        return "Восток"
+        return translator.get_translation(lang=lang, firstKey='utils', secondKey='weather', thirdKey='west')
     elif degree < 157.5:   
-        return "Юго-восток"
+        return translator.get_translation(lang=lang, firstKey='utils', secondKey='weather', thirdKey='southwest')
     elif degree < 202.5:   
-        return "Юг"
+        return translator.get_translation(lang=lang, firstKey='utils', secondKey='weather', thirdKey='south')
     elif degree < 247.5:   
-        return "Юго-запад" 
+        return translator.get_translation(lang=lang, firstKey='utils', secondKey='weather', thirdKey='southeast')
     elif degree < 292.5:   
-        return "Запад" 
+        return translator.get_translation(lang=lang, firstKey='utils', secondKey='weather', thirdKey='east')
     elif degree < 337.5:   
-        return "Северо-запад"  
+        return translator.get_translation(lang=lang, firstKey='utils', secondKey='weather', thirdKey='northeast')

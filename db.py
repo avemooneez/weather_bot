@@ -19,7 +19,8 @@ user_id INTEGER PRIMARY KEY UNIQUE NOT NULL
 CREATE TABLE IF NOT EXISTS `settings`(
 user_id INTEGER PRIMARY KEY UNIQUE NOT NULL,
 timezone TEXT,
-timeshed TEXT
+timeshed TEXT,
+lang TEXT DEFAULT 'en'
 )
 """
             )
@@ -85,3 +86,12 @@ timeshed TEXT
                     (time, user_id,)
                 )
             return
+    
+    def add_lang(self, lang: str, user_id: int) -> None:
+        with self.conn:
+            self.cur.execute("INSERT OR REPLACE INTO `settings` (`lang`) VALUES (?) WHERE `user_id` = ?", (lang, user_id,))
+            return
+    
+    def get_lang(self, user_id: int) -> str:
+        with self.conn:
+            return self.cur.execute("SELECT `lang` FROM `settings` WHERE `user_id` = ?", (user_id,)).fetchone()[0]
