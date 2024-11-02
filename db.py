@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `settings`(
 user_id INTEGER PRIMARY KEY UNIQUE NOT NULL,
 timezone TEXT,
 timeshed TEXT,
-lang TEXT DEFAULT 'ru',
+lang TEXT DEFAULT 'en'
 )
 """
             )

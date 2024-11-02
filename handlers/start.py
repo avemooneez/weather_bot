@@ -18,9 +18,9 @@ class TimeWeather(StatesGroup):
 
 @router.message(Command("start"), StateFilter(None))  
 async def cmd_start(message: Message, state: FSMContext):
-    lang = db.get_lang(message.from_user.id)
     if not db.user_exists(message.from_user.id):
         db.add_user(message.from_user.id)
+        lang = db.get_lang(message.from_user.id)
         answer = translator.get_translation(lang=lang,
                                             firstKey='handlers', secondKey='start',
                                             thirdKey='welcome_new_user')
@@ -29,6 +29,7 @@ async def cmd_start(message: Message, state: FSMContext):
             )
         await state.set_state(TimeWeather.time)
     else:
+        lang = db.get_lang(message.from_user.id)
         answer = translator.get_translation(lang=lang,
                                             firstKey='handlers', secondKey='start',
                                             thirdKey='welcome')
@@ -38,7 +39,7 @@ async def cmd_start(message: Message, state: FSMContext):
 @router.message(StateFilter(TimeWeather.time))
 async def timechoose(message: Message, state: FSMContext):
     lang = db.get_lang(message.from_user.id)
-    if message.text.lower() == "нет, спасибо":
+    if message.text.lower() == "нет, спасибо" or message.text.lower() == "no, thanks":
         answer = translator.get_translation(lang=lang,
                                             firstKey='handlers', secondKey='start',
                                             thirdKey='answer_is_given')
