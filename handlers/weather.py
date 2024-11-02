@@ -9,6 +9,7 @@ from datetime import datetime
 import asyncio
 from math import ceil  
 import pytz
+from utils import translator
 
 router = Router()  
 db = Database("./database.db") 
@@ -18,8 +19,9 @@ db = Database("./database.db")
 async def getWeather(message: Message):
     await asyncio.sleep(1)
     timezone = tz(lon=message.location.longitude, lat=message.location.latitude)
-    url = 'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&lang=ru&appid={APIkey}&units=metric'
-    response = requests.get(url=url.format(lon=f"{message.location.longitude}", lat=f"{message.location.latitude}", APIkey=owm_token))
+    lang = db.get_lang(message.from_user.id)
+    url = 'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&lang={lang}&appid={APIkey}&units=metric'
+    response = requests.get(url=url.format(lon=f"{message.location.longitude}", lat=f"{message.location.latitude}", APIkey=owm_token, lang=lang))
     data = response.json()
     print(data)
     wthr = (data['weather'][0]['description']).capitalize()
@@ -29,6 +31,11 @@ async def getWeather(message: Message):
     wthr_icon = (data['weather'][0]['icon'])
     degree = (data['wind']['deg']) 
     loc = (data['name'])   
-    deg = weather.get_wind_direction(degree)
+    deg = weather.get_wind_direction(degree, lang)
     wthr_emj = weather.wthr_emjs[wthr_icon]
-    await message.answer(f"Локация: {loc} | {datetime.now(tz=pytz.timezone(timezone)).strftime('%d.%m.%Y %H:%M')}\n\n{wthr_emj}{wthr}\n🌞Температура: {ceil(temp)} °C\n💨Ветер: {wind} м/с | {deg}\n🌡Давление: {ceil(prss/1.333)} мм рт. ст.")
+    
+    answer = translator.get_translation(lang=lang, firstKey='handlers', secondKey='weather', thirdKey='answer', loc=loc,
+                                        date=datetime.now(tz=pytz.timezone(timezone)).strftime('%d.%m.%Y %H:%M'),
+                                        weather_emoji=wthr_emj, wthr=wthr, temp=ceil(temp), wind=wind, degree=deg, pressure=ceil(prss/1.333))
+    await message.answer(answer)
+
