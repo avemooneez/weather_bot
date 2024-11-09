@@ -1,6 +1,6 @@
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command
-from aiogram import Router, F  
+from aiogram import Router, F
 from db import Database
 from keyboards import settings, main
 from utils import translator
@@ -9,8 +9,8 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 from datetime import datetime
 
-router = Router()  
-db = Database("./database.db") 
+router = Router()
+db = Database("./database.db")
 
 class TimeWeather(StatesGroup):
     time = State()
@@ -33,16 +33,14 @@ async def cb_change_language(callback: CallbackQuery):
 async def cb_lang_ru(callback: CallbackQuery):
     db.set_lang(lang="ru", user_id=callback.from_user.id)
     answer = translator.get_translation(lang="ru", firstKey='handlers', secondKey='settings', thirdKey='language_set_to_ru')
-    await callback.message.answer(answer, reply_markup=main.main(lang='ru'))
-    await callback.answer()
+    await callback.answer(answer, reply_markup=main.main(lang='ru'))
 
 @router.callback_query(F.data == "language_en")
 async def cb_lang_en(callback: CallbackQuery):
     db.set_lang(lang="en", user_id=callback.from_user.id)
     answer = translator.get_translation(lang="en", firstKey='handlers', secondKey='settings', thirdKey='language_set_to_en')
-    await callback.message.answer(answer, reply_markup=main.main(lang='en'))
-    await callback.answer()
-    
+    await callback.answer(answer, reply_markup=main.main(lang='en'))
+
 # Время ежедневной отправки погоды
 
 @router.callback_query(F.data == "setting_time", StateFilter(None))
@@ -75,13 +73,24 @@ async def cb_time(callback: CallbackQuery, state: FSMContext):
             thirdKey='no_time'
         )
         db.set_time(time=None, user_id=callback.from_user.id)
-        await callback.message.answer(answer, reply_markup=main.main(lang=lang))
+        time = db.get_time(user_id=callback.from_user.id)
+        if time is None:
+            time = translator.get_translation(lang=lang, firstKey='handlers', secondKey='settings', thirdKey='time_is_not_set')
+        msg = translator.get_translation(
+            lang=lang,
+            firstKey='handlers',
+            secondKey='settings',
+            thirdKey='choose_time',
+            time=time
+        )
+        await callback.message.edit_text(msg, reply_markup=settings.choose_time(lang))
+        await callback.answer(answer, reply_markup=main.main(lang=lang))
         await state.clear()
         return
 
     try:
         time = datetime.strptime(time_str, '%H:%M')
-        
+
         if time.hour < 0 or time.hour > 23 or time.minute < 0 or time.minute > 59:
             raise ValueError("Time out of range")
 
@@ -94,12 +103,12 @@ async def cb_time(callback: CallbackQuery, state: FSMContext):
         db.set_time(time=time_str, user_id=callback.from_user.id)
         await callback.message.answer(answer, reply_markup=main.main(lang=lang))
         await state.clear()
-    except ValueError:
+    except Exception:
         answer = translator.get_translation(
             lang=lang,
             firstKey='handlers',
             secondKey='settings',
             thirdKey='invalid_time'
         )
-        await callback.message.answer(answer, reply_markup=settings.choose_time(lang))
+        await callback.answer(answer, reply_markup=settings.choose_time(lang))
         await state.set_state(TimeWeather.time)
