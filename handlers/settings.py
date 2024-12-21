@@ -94,14 +94,23 @@ async def cb_time(callback: CallbackQuery, state: FSMContext):
         if time.hour < 0 or time.hour > 23 or time.minute < 0 or time.minute > 59:
             raise ValueError("Time out of range")
 
+        db.set_time(time=time_str, user_id=callback.from_user.id)
+        
+        answer = translator.get_translation(
+            lang=lang,
+            firstKey='handlers',
+            secondKey='settings',
+            thirdKey='choose_time',
+            time=time
+        )
+        await callback.message.edit_reply_markup(answer, reply_markup=main.main(lang=lang))
         answer = translator.get_translation(
             lang=lang,
             firstKey='handlers',
             secondKey='settings',
             thirdKey='time_set'
         )
-        db.set_time(time=time_str, user_id=callback.from_user.id)
-        await callback.message.answer(answer, reply_markup=main.main(lang=lang))
+        await callback.answer(answer, reply_markup=main.main(lang=lang))
         await state.clear()
     except Exception:
         answer = translator.get_translation(
