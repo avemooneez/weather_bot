@@ -7,8 +7,8 @@ translations = {
                 'answer' : 'Location: {loc} \n\n',
             },
             'start' : {
-                'welcome_new_user' : 'Hello! You are a new user. This is a telegram bot that can send the weather.\nEnter the time when it is better to send the weather every day or click the button below so that I do not send you the weather every day. You can always change your mind in /settings',
-                'welcome' : 'Welcome!\nSend your geolocation using the button below and I will send you the weather in this area',
+                'welcome_new_user' : "Hi! You're a new user. This is a telegram bot that can send the weather.\n\nThat's what I can do: I'll send you the weather by clicking on the button below or by the name of the city.\n/settings — bot settings. There you can configure the language of the bot, as well as the time of daily weather sending.\n/forecast — I will send you the weather forecast for the next 24 hours",
+                'welcome' : 'Welcome!\nSend your geolocation using the button below and I will send you the weather in this area\n\nUsing the button below or the name of the city, I will send you the weather.\n/settings — bot settings. There you can configure the language of the bot, as well as the time of daily weather sending.\n/forecast — I will send you the weather forecast for the next 24 hours',
                 'answer_is_given' : 'OK!',
                 'incorrect_time' : 'Please enter a valid time!'
             },
@@ -66,7 +66,7 @@ translations = {
             },
             'start' : {
                 'welcome_new_user' : 'Привет! Ты новый пользователь. Это — телеграм-бот, который может отправлять погоду.\n\nВот что я умею: По кнопке ниже или по названию города — пришлю погоду.\n/settings — настройки бота. Там Вы можете настроить язык бота, а также время ежедневной отправки погоды.\n/forecast — отправлю прогноз погоды на ближайшие сутки',
-                'welcome' : 'Добро пожаловать!\nОтправьте Вашу геолокацию по кнопке ниже и я пришлю погоду в данном участке',
+                'welcome' : 'Добро пожаловать!\nОтправьте Вашу геолокацию по кнопке ниже и я пришлю погоду в данном участке\n\nПо кнопке ниже или по названию города — пришлю погоду.\n/settings — настройки бота. Там Вы можете настроить язык бота, а также время ежедневной отправки погоды.\n/forecast — отправлю прогноз погоды на ближайшие сутки',
                 'answer_is_given' : 'Принято!',
                 'incorrect_time' : 'Введите корректное время!'
             },
