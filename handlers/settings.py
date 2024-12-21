@@ -15,6 +15,8 @@ db = Database("./database.db")
 class TimeWeather(StatesGroup):
     time = State()
 
+# НАСТРОЙКИ БОТА: ЯЗЫК, ВРЕМЯ ЕЖЕДНЕВНОЙ ОТПРАВКИ
+
 @router.message(Command("settings"))
 async def cmd_settings(message: Message):
     lang = db.get_lang(message.from_user.id)

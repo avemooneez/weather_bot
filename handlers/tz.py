@@ -18,6 +18,8 @@ db = Database("./database.db")
 class GetTimeZone(StatesGroup):
     location = State()
 
+# НЕ ИСПОЛЬЗУЕТСЯ
+
 @router.message(StateFilter(None), Command("timezone"))
 async def cmd_geo(message: Message, state: FSMContext):
     await message.answer(

@@ -16,6 +16,8 @@ db = Database("./database.db")
 class TimeWeather(StatesGroup):
     time = State()
 
+# ПЕРЕЗАГРУЗКА БОТА, ВНЕСЕНИЕ В БД НОВЫХ ЮЗЕРОВ
+
 @router.message(Command("start"), StateFilter(None))  
 async def cmd_start(message: Message, state: FSMContext):
     if not db.user_exists(message.from_user.id):

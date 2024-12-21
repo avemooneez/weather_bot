@@ -19,7 +19,9 @@ db = Database("./database.db")
 
 class ForecastStates(StatesGroup):
     forecast = State()
-   
+
+# ОТПРАВКА ПРОГНОЗА НА БЛИЖАЙШИЕ СУТКИ
+
 @router.message(Command("forecast"), StateFilter(None))
 async def cmd_forecast(message: Message, state: FSMContext):
     lang = db.get_lang(message.from_user.id)

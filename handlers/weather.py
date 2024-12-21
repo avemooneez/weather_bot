@@ -14,6 +14,7 @@ from utils import translator
 router = Router()  
 db = Database("./database.db") 
 
+# ОТПРАВКА ПОГОДЫ СЕЙЧАС
 
 @router.message(F.location)
 async def getWeather(message: Message):
