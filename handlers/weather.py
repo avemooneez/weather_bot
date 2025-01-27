@@ -40,3 +40,30 @@ async def getWeather(message: Message):
                                         weather_emoji=wthr_emj, wthr=wthr, temp=ceil(temp), wind=wind, degree=deg, pressure=ceil(prss/1.333))
     await message.answer(answer)
 
+@router.message(F.text)
+async def getWeatherByText(message: Message):
+    await asyncio.sleep(1)
+    lang = db.get_lang(message.from_user.id)
+    url = 'https://api.openweathermap.org/data/2.5/weather?q={city}&lang={lang}&appid={APIkey}&units=metric'
+    response = requests.get(url=url.format(city=message.text, APIkey=owm_token, lang=lang))
+    print(url.format(city=F.text, APIkey=owm_token, lang=lang))
+    data = response.json()
+    print(data)
+    if data['cod'] == 200:
+        wthr = (data['weather'][0]['description']).capitalize()
+        temp = (data['main']['temp'])  
+        wind = (data['wind']['speed']) 
+        prss = (data['main']['pressure'])
+        wthr_icon = (data['weather'][0]['icon'])
+        degree = (data['wind']['deg']) 
+        loc = (data['name'])
+        timezone = int(data['timezone'])
+        deg = weather.get_wind_direction(degree, lang)
+        wthr_emj = weather.wthr_emjs[wthr_icon]
+        
+        answer = translator.get_translation(lang=lang, firstKey='handlers', secondKey='weather', thirdKey='answer', loc=loc,
+                                            date=datetime.now(tz=pytz.FixedOffset(timezone // 60)).strftime('%d.%m.%Y %H:%M'),
+                                            weather_emoji=wthr_emj, wthr=wthr, temp=ceil(temp), wind=wind, degree=deg, pressure=ceil(prss/1.333))
+        await message.answer(answer)
+    else:
+        await message.answer('Unknown error.')
