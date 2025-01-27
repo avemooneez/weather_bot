@@ -15,7 +15,7 @@ translations = {
             'settings' : {
                 'choose_setting' : 'Choose a setting using buttons below',
                 'choose_language' : 'Below are the available languages of the bot',
-                'language_set_to_en' : 'The bot language has been successfully changed',
+                'language_set_to_en' : 'The bot language has been successfully changed. Please, restart the bot — /start.',
                 'choose_time' : 'Set time: {time}\n\nEnter the time when it is best to send the weather every day or click the button below so that I do not send you the weather every day',
                 'no_time' : 'OK!',
                 'time_set' : 'The time has been successfully changed.',
@@ -70,7 +70,7 @@ translations = {
             'settings' : {
                 'choose_setting' : 'Выберите настройку с помощью кнопок ниже',
                 'choose_language' : 'Ниже представлены доступные языки бота',
-                'language_set_to_ru' : 'Язык бота был успешно изменен',
+                'language_set_to_ru' : 'Язык бота был успешно изменен. Пожалуйста, перезагрузите бота командой /start.',
                 'choose_time' : 'Время на данный момент: {time}\n\nВведите время, когда лучше отправлять погоду каждый день или нажмите на кнопку ниже, чтобы я не отправлял вам погоду каждый день',
                 'no_time' : 'Принято!',
                 'time_set' : 'Время было успешно изменено',

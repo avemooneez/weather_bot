@@ -35,13 +35,13 @@ async def cb_change_language(callback: CallbackQuery):
 async def cb_lang_ru(callback: CallbackQuery):
     db.set_lang(lang="ru", user_id=callback.from_user.id)
     answer = translator.get_translation(lang="ru", firstKey='handlers', secondKey='settings', thirdKey='language_set_to_ru')
-    await callback.answer(answer, reply_markup=main.main(lang='ru'))
+    await callback.message.answer(answer, reply_markup=main.main(lang='ru'))
 
 @router.callback_query(F.data == "language_en")
 async def cb_lang_en(callback: CallbackQuery):
     db.set_lang(lang="en", user_id=callback.from_user.id)
     answer = translator.get_translation(lang="en", firstKey='handlers', secondKey='settings', thirdKey='language_set_to_en')
-    await callback.answer(answer, reply_markup=main.main(lang='en'))
+    await callback.message.answer(answer, reply_markup=main.main(lang='en'))
 
 # Время ежедневной отправки погоды
 

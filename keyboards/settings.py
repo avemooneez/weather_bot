@@ -10,8 +10,9 @@ def choose_setting(lang) -> InlineKeyboardMarkup:
     #         lang=lang, firstKey='keyboards', secondKey='settings',
     #         thirdKey='choose_setting_' + key), callback_data='setting_' + key)
     kb.button(text=translator.get_translation(
-        lang=lang, firstKey='keyboards', secondKey='timechooser',
-        thirdKey='no_time'), callback_data='setting_time_no_time')
+        lang=lang, firstKey='keyboards',
+        secondKey='settings', thirdKey='choose_setting_language'
+        ), callback_data='setting_language')
     kb.adjust(1)
     return kb.as_markup(resize_keyboard=True)
 
