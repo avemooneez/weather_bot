@@ -46,7 +46,7 @@ async def getWeatherByText(message: Message):
     lang = db.get_lang(message.from_user.id)
     url = 'https://api.openweathermap.org/data/2.5/weather?q={city}&lang={lang}&appid={APIkey}&units=metric'
     response = requests.get(url=url.format(city=message.text, APIkey=owm_token, lang=lang))
-    print(url.format(city=F.text, APIkey=owm_token, lang=lang))
+    print(url.format(city=message.text, APIkey=owm_token, lang=lang))
     data = response.json()
     print(data)
     if data['cod'] == 200:
